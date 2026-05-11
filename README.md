@@ -1,5 +1,7 @@
 # test-CodingAgent
 
+A practice repository for learning GitHub workflows and collaboration.
+
 ## Project Structure
 
 ```
