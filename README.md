@@ -1,6 +1,6 @@
 # test-CodingAgent
 
-A practice repository for learning GitHub workflows and collaboration.
+A hands-on coding agent test repository for learning GitHub workflows, collaboration, and Git features.
 
 ## Project Structure
 
