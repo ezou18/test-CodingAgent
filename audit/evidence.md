@@ -84,3 +84,68 @@ showed *no conflicts* on GitHub and was merged cleanly into `main` as commit
      the combined sentence
 3. Compare PR #4 and PR #5 diffs against the final `README.md` on `main` to
    see that both sides of the conflict contributed to the final wording.
+
+---
+
+# Worktree Evidence
+
+This section documents using `git worktree` to work on **two branches in
+parallel** from a single clone, producing two independent PRs.
+
+## Setup
+
+From a clean `main`:
+
+```bash
+git worktree add /tmp/wt-faq -b worktree/add-faq
+git worktree add /tmp/wt-q3  -b worktree/add-q3
+```
+
+## `git worktree list` while both worktrees were live
+
+Captured on 2026-05-11 at 16:08 -0700, with both branches checked out
+simultaneously and both having unmerged work:
+
+```text
+/Users/ernestine/Desktop/Claude_code_test/test-CodingAgent  f924d44 [main]
+/private/tmp/wt-faq                                         1948ca5 [worktree/add-faq]
+/private/tmp/wt-q3                                          6a9d640 [worktree/add-q3]
+```
+
+- `main` worktree at `f924d44` (merge of PR #9, the conflict-evidence PR)
+- `/tmp/wt-faq` at `1948ca5` — commit "Add FAQ covering common project questions"
+- `/tmp/wt-q3`  at `6a9d640` — commit "Add Q3 answer about git worktree"
+
+Three working trees, three different `HEAD`s, **one shared `.git` database**.
+
+## Resulting PRs
+
+Both branches were pushed and merged into `main` independently:
+
+| Worktree path     | Branch                | PR  | File added        | Merged |
+|-------------------|-----------------------|-----|-------------------|--------|
+| `/tmp/wt-faq`     | `worktree/add-faq`    | [#10](https://github.com/ezou18/test-CodingAgent/pull/10) | `docs/faq.md`     | yes |
+| `/tmp/wt-q3`      | `worktree/add-q3`     | [#11](https://github.com/ezou18/test-CodingAgent/pull/11) | `answers/q3.md`   | yes |
+
+Earlier in the project, two more worktree-based PRs were merged
+(PR [#6](https://github.com/ezou18/test-CodingAgent/pull/6) `worktree/add-contributing`
+and PR [#7](https://github.com/ezou18/test-CodingAgent/pull/7) `worktree/add-changelog`),
+giving four worktree PRs in total.
+
+## Cleanup
+
+After merging, the worktrees were removed:
+
+```bash
+git worktree remove /tmp/wt-faq
+git worktree remove /tmp/wt-q3
+git worktree list   # only `main` remains
+```
+
+## How to verify
+
+1. PR list: https://github.com/ezou18/test-CodingAgent/pulls?q=is%3Apr+head%3Aworktree
+   — shows all four `worktree/*` branches merged into `main`.
+2. PR [#10](https://github.com/ezou18/test-CodingAgent/pull/10) and
+   PR [#11](https://github.com/ezou18/test-CodingAgent/pull/11) were both
+   open at the same time, then merged, demonstrating parallel work.
