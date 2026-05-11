@@ -7,7 +7,11 @@ A hands-on coding agent test repository for learning GitHub workflows, collabora
 ```
 .
 ├── README.md
-├── docs/       # Documentation
+├── docs/       # Documentation (see docs/changelog.md for release history)
 ├── answers/    # Answers
 └── audit/      # Audit logs
 ```
+
+## Changelog
+
+See [docs/changelog.md](docs/changelog.md) for the project's release history.
